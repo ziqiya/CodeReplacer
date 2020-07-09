@@ -1,6 +1,6 @@
-# Document Editing Sample
+# CodeReplacer
 
-This is an example that shows you how to create a command which makes changes to the document in the active editor.
+一款可以转换 className 和 css 为指定格式的 vscode 插件。
 
 ## Demo
 
