@@ -6,23 +6,14 @@
 
 ![demo](demo.gif)
 
-## VS Code API
+## Usage
 
-### `vscode` module
+先选中需要转换的代码，使用 `shift + command + P`  搜索选择以下指令可以进行对应的 format 操作。
 
-- [`commands.registerCommand`](https://code.visualstudio.com/api/references/vscode-api#commands.registerCommand)
-- [`window.activeTextEditor`](https://code.visualstudio.com/api/references/vscode-api#window.activeTextEditor)
-- [`TextDocument.getText`](https://code.visualstudio.com/api/references/vscode-api#TextDocument.getText)
-- [`TextEditor.edit`](https://code.visualstudio.com/api/references/vscode-api#TextEditor.edit)
-- [`TextEditorEdit`](https://code.visualstudio.com/api/references/vscode-api#TextEditorEdit)
+1.classNameToStyles：Transform ClassName To Styles，转换 class-name 为 styles.className 的小驼峰类型，eg:`className='test-name'` => `className={styles.testName}`。
 
-### Contribution Points
+2.stylesToClassName：Transform Styles To ClassName，转换 styles.className 小驼峰为 class-name 的类型，是方法 1 的逆向过程，eg：`className={styles.testName}` => `className='test-name'`。
 
-- [`contributes.commands`](https://code.visualstudio.com/api/references/contribution-points#contributes.commands)
+3.cssToCamel：Transform Css To Camel Style，转换 .css-name 的 类型为 .cssName 小驼峰类型，eg：`.css-name {}` => `.cssName {}`。
 
-## Running the Sample
-
-- Run `npm install` in terminal to install dependencies
-- Run the `Run Extension` target in the Debug View. This will:
-	- Start a task `npm: watch` to compile the code
-	- Run the extension in a new VS Code window
+4.camelToCss：Transform Camel To Css Style，转换 .cssName 的小驼峰类型为 .css-name 类型，是方法 3 的逆向过程，eg：`.cssName {}` => `.css-name {}`。

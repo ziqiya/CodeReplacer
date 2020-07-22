@@ -1,13 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/*
- * @文件描述:
- * @公司: thundersdata
- * @作者: 阮旭松
- * @Date: 2020-07-09 00:36:10
- * @LastEditors: 阮旭松
- * @LastEditTime: 2020-07-22 15:43:21
- */
 const vscode = require("vscode");
 /** 转换字符串第一个字母大写 */
 const upperCaseFirstWord = (text) => {

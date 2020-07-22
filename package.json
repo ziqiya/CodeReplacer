@@ -1,28 +1,28 @@
 {
-  "name": "codereplacer",
-  "displayName": "codeReplacer",
+  "name": "css-code-replacer",
+  "displayName": "cssCodeReplacer",
   "description": "replace css styles as you like",
   "version": "0.0.1",
-  "publisher": "rebornix",
+  "publisher": "rxs-michael",
   "engines": {
     "vscode": "^1.32.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RuanXuSong/CodeReplacer.git"
   },
   "categories": [
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.codeReplacer.classNameToStyles",
     "onCommand:extension.codeReplacer.cssToCamel",
     "onCommand:extension.codeReplacer.camelToCss",
-    "onCommand:extension.codeReplacer.stylesToClassName"
+    "onCommand:extension.codeReplacer.stylesToClassName",
+    "onCommand:extension.codeReplacer.classNameToStyles"
   ],
   "main": "./out/extension",
   "contributes": {
     "commands": [
-      {
-        "command": "extension.codeReplacer.classNameToStyles",
-        "title": "Transform ClassName To Styles"
-      },
       {
         "command": "extension.codeReplacer.cssToCamel",
         "title": "Transform Css To Camel Style"
@@ -34,14 +34,19 @@
       {
         "command": "extension.codeReplacer.stylesToClassName",
         "title": "Transform Styles To ClassName"
+      },
+      {
+        "command": "extension.codeReplacer.classNameToStyles",
+        "title": "Transform ClassName To Styles"
       }
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "lint": "eslint . --ext .ts,.tsx",
-    "watch": "tsc -watch -p ./"
+    "watch": "tsc -watch -p ./",
+    "publish": "vsce publish"
   },
   "devDependencies": {
     "@types/node": "^12.12.0",
