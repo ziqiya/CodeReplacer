@@ -2,16 +2,26 @@
   "name": "css-code-replacer",
   "displayName": "cssCodeReplacer",
   "description": "replace css styles as you like",
-  "version": "0.0.2",
+  "version": "0.0.4",
+  "author": "rxs-michael",
   "publisher": "rxs-michael",
   "engines": {
     "vscode": "^1.32.0"
   },
+  "icon": "logo.png",
+  "keywords": [
+    "css",
+    "code",
+    "replacer",
+    "code replacer"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/RuanXuSong/CodeReplacer.git"
   },
+  "homepage": "https://github.com/RuanXuSong/CodeReplacer/blob/master/README.md",
   "categories": [
+    "Programming Languages",
     "Other"
   ],
   "activationEvents": [
