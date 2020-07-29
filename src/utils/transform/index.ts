@@ -1,16 +1,37 @@
 import * as vscode from 'vscode';
 
-/** 转换字符串第一个字母大写 */
-const upperCaseFirstWord = (text: string) => {
-  const newStr = text[0].toUpperCase() + text.substring(1);
-  return newStr;
+// 转换蛇形命名(-)为驼峰字符串
+const upperWordString = (txt: string) => {
+  if (!txt) {
+    return '';
+  }
+  function upperCaseFirstWord(str: string) {
+    if (!str) {
+      return '';
+    }
+    const newStr = str[0].toUpperCase() + str.substring(1);
+    return newStr;
+  }
+  return txt
+    .split('-')
+    .map((item) => upperCaseFirstWord(item))
+    .join('');
 };
 
-// 转换字符串第一个字母小写
-function lowerCaseFirstWord(text: string) {
-  const newStr = text[0].toLowerCase() + text.substring(1);
-  return newStr;
-}
+// 转换驼峰字符串所有大写字母小写并以-连接
+const lowerWordString = (txt: string) => {
+  if (!txt) {
+    return '';
+  }
+  const stringArr = txt.split('');
+  const transformedArr = [...stringArr];
+  stringArr.forEach((item, idx) => {
+    if (item < 'Z' && item > 'A') {
+      transformedArr.splice(idx, 1, `-${item.toLowerCase()}`);
+    }
+  });
+  return transformedArr.join('');
+};
 
 /** classNameToStyles */
 const classNameToStyles = (selection: string) => {
@@ -19,9 +40,9 @@ const classNameToStyles = (selection: string) => {
     `className={styles.$1}`
   );
   const camelTransformedTxt = transformedTxt.replace(
-    /className={styles.(\w+)-(\w+)}/g,
+    /className={styles.(\w+)([-\w+]*)}/g,
     function (_word, a, b) {
-      return `className={styles.${a}${upperCaseFirstWord(b)}}`;
+      return `className={styles.${a}${upperWordString(b)}}`;
     }
   );
   return camelTransformedTxt;
@@ -29,22 +50,21 @@ const classNameToStyles = (selection: string) => {
 
 /** cssToCamel */
 const cssToCamel = (selection: string) => {
-  const camelTransformedTxt = selection.replace(/.(\w+)-(\w+) ?{/g, function (
-    _word,
-    a,
-    b
-  ) {
-    return `.${a}${upperCaseFirstWord(b)} {`;
-  });
+  const camelTransformedTxt = selection.replace(
+    /.(\w+)([-\w+]*) ?{/g,
+    function (_word, a, b) {
+      return `.${a}${upperWordString(b)} {`;
+    }
+  );
   return camelTransformedTxt;
 };
 
 /** stylesToClassName */
 function stylesToClassName(selection: string) {
   const transformedTxt = selection.replace(
-    /className={styles.([a-z][a-z|0-9]*)([A-Z][a-z|0-9]*)?}/g,
+    /className={styles.([a-z][a-z|0-9]*)(([A-Z][a-z|0-9]*)*)}/g,
     function (_word, a, b) {
-      return `className="${a}${b ? `-${lowerCaseFirstWord(b)}` : ''}"`;
+      return `className="${a}${lowerWordString(b)}"`;
     }
   );
   return transformedTxt;
@@ -53,9 +73,9 @@ function stylesToClassName(selection: string) {
 /** camelToCss */
 function camelToCss(selection: string) {
   const transformedTxt = selection.replace(
-    /.([a-z][a-z|0-9]*)([A-Z][a-z|0-9]*)? ?{/g,
+    /.([a-z][a-z|0-9]*)(([A-Z][a-z|0-9]*)*) ?{/g,
     function (_word, a, b) {
-      return `.${a}${b ? `-${lowerCaseFirstWord(b)}` : ''} {`;
+      return `.${a}${lowerWordString(b)} {`;
     }
   );
   return transformedTxt;
