@@ -51,7 +51,7 @@ const classNameToStyles = (selection: string) => {
 /** cssToCamel */
 const cssToCamel = (selection: string) => {
   const camelTransformedTxt = selection.replace(
-    /.(\w+)([-\w+]*)( ?[{|,])/g,
+    /\.(\w+)([-\w+]*)( ?[{|,])/g,
     function (_word, a, b, c) {
       return `.${a}${upperWordString(b)}${c}`;
     }
@@ -73,9 +73,9 @@ function stylesToClassName(selection: string) {
 /** camelToCss */
 function camelToCss(selection: string) {
   const transformedTxt = selection.replace(
-    /.([a-z][a-z|0-9]*)([[A-Z][a-z|0-9]*]*)( ?[{|,])/g,
-    function (_word, a, b, c) {
-      return `.${a}${lowerWordString(b)}${c}`;
+    /\.([a-z][a-z|0-9]*)(([A-Z][a-z|0-9]*)*)( ?[{|,])/g,
+    function (_word, a, b, _c, d) {
+      return `.${a}${lowerWordString(b)}${d}`;
     }
   );
   return transformedTxt;
