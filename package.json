@@ -2,7 +2,7 @@
   "name": "css-code-replacer",
   "displayName": "cssCodeReplacer",
   "description": "replace css styles as you like",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "author": "rxs-michael",
   "publisher": "rxs-michael",
   "engines": {
@@ -28,7 +28,9 @@
     "onCommand:extension.codeReplacer.cssToCamel",
     "onCommand:extension.codeReplacer.camelToCss",
     "onCommand:extension.codeReplacer.stylesToClassName",
-    "onCommand:extension.codeReplacer.classNameToStyles"
+    "onCommand:extension.codeReplacer.classNameToStyles",
+    "onCommand:extension.codeReplacer.cssToStyle",
+    "onCommand:extension.codeReplacer.styleToCss"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -48,6 +50,14 @@
       {
         "command": "extension.codeReplacer.classNameToStyles",
         "title": "Transform ClassName To Styles"
+      },
+      {
+        "command": "extension.codeReplacer.cssToStyle",
+        "title": "Transform Css To Styles"
+      },
+      {
+        "command": "extension.codeReplacer.styleToCss",
+        "title": "Transform Styles To Css"
       }
     ]
   },

@@ -1,17 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode = require("vscode");
+function upperCaseFirstWord(str) {
+    if (!str) {
+        return '';
+    }
+    const newStr = str[0].toUpperCase() + str.substring(1);
+    return newStr;
+}
 // 转换蛇形命名(-)为驼峰字符串
 const upperWordString = (txt) => {
     if (!txt) {
         return '';
-    }
-    function upperCaseFirstWord(str) {
-        if (!str) {
-            return '';
-        }
-        const newStr = str[0].toUpperCase() + str.substring(1);
-        return newStr;
     }
     return txt
         .split('-')
@@ -61,7 +61,47 @@ function camelToCss(selection) {
     });
     return transformedTxt;
 }
-function transformWordFromMethods(menthod) {
+/** 将单词转换为小驼峰写法 */
+const transformToCamel = (text) => {
+    return text.replace(/-(\w+)/, function (_word, a) {
+        return upperCaseFirstWord(a);
+    });
+};
+/** cssToStyle */
+function cssToStyle(selection) {
+    const transformedTxt = selection.replace(/\.([^\s]*?) *\{\n([\s\S]*?)\n *\}/g, function (_word, a, str) {
+        const wordList = str.split('\n');
+        const formattedStr = wordList
+            .map((item) => {
+            const cssArr = item.split(':');
+            const cssLabel = cssArr[0].replace(/(^\s*)|(\s*$)/g, '');
+            const cssValue = cssArr[1].replace(/(^\s*)|(\s*$)|;/g, '');
+            const formattedWord = transformToCamel(cssLabel);
+            return ` ${formattedWord}: '${cssValue}'`;
+        })
+            .join(',');
+        return `${a}:\nstyle={{${formattedStr}}}`;
+    });
+    return transformedTxt;
+}
+/** styleToCss */
+function styleToCss(selection) {
+    const transformedTxt = selection.replace(/style=\{\{ ?(.*?) ?\}\}/g, function (_word, str) {
+        const wordList = str.split(',');
+        const formattedStr = wordList
+            .map((item) => {
+            const cssArr = item.split(':');
+            const cssLabel = cssArr[0].replace(/(^\s*)|(\s*$)/g, '');
+            const cssValue = cssArr[1].replace(/(^\s*)|(\s*$)|'/g, '');
+            const formattedWord = lowerWordString(cssLabel);
+            return `  ${formattedWord}: ${cssValue};`;
+        })
+            .join('\n');
+        return `.css {\n${formattedStr}\n}`;
+    });
+    return transformedTxt;
+}
+function transformWordFromMethods(method) {
     return function () {
         const editor = vscode.window.activeTextEditor;
         if (editor) {
@@ -69,7 +109,7 @@ function transformWordFromMethods(menthod) {
             const selection = editor.selection;
             // Get the word within the selection
             const word = document.getText(selection);
-            const transformed = menthod(word);
+            const transformed = method(word);
             editor.edit((editBuilder) => {
                 editBuilder.replace(selection, transformed);
                 vscode.window.showInformationMessage('转换成功!');
@@ -82,6 +122,8 @@ module.exports = {
     camelToCss,
     classNameToStyles,
     stylesToClassName,
+    cssToStyle,
+    styleToCss,
     transformWordFromMethods,
 };
 //# sourceMappingURL=index.js.map
