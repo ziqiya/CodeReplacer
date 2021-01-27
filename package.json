@@ -2,7 +2,7 @@
   "name": "css-code-replacer",
   "displayName": "cssCodeReplacer",
   "description": "replace css styles as you like",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "author": "rxs-michael",
   "publisher": "rxs-michael",
   "engines": {
