@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
+import { formatSize } from './formatSize';
 
+// 大写单词首个字母
 function upperCaseFirstWord(str: string) {
   if (!str) {
     return '';
@@ -42,7 +44,7 @@ const classNameToStyles = (selection: string) => {
   );
   const camelTransformedTxt = transformedTxt.replace(
     /className={styles.(\w+)([-\w+]*)}/g,
-    function (_word, a, b) {
+    function(_word, a, b) {
       return `className={styles.${a}${upperWordString(b)}}`;
     }
   );
@@ -53,7 +55,7 @@ const classNameToStyles = (selection: string) => {
 const cssToCamel = (selection: string) => {
   const camelTransformedTxt = selection.replace(
     /\.(\w+)([-\w+]*)( ?[{|,])/g,
-    function (_word, a, b, c) {
+    function(_word, a, b, c) {
       return `.${a}${upperWordString(b)}${c}`;
     }
   );
@@ -64,7 +66,7 @@ const cssToCamel = (selection: string) => {
 function stylesToClassName(selection: string) {
   const transformedTxt = selection.replace(
     /className={styles.([a-z][a-z|0-9]*)(([A-Z][a-z|0-9]*)*)}/g,
-    function (_word, a, b) {
+    function(_word, a, b) {
       return `className="${a}${lowerWordString(b)}"`;
     }
   );
@@ -75,7 +77,7 @@ function stylesToClassName(selection: string) {
 function camelToCss(selection: string) {
   const transformedTxt = selection.replace(
     /\.([a-z][a-z|0-9]*)(([A-Z][a-z|0-9]*)*)( ?[{|,])/g,
-    function (_word, a, b, _c, d) {
+    function(_word, a, b, _c, d) {
       return `.${a}${lowerWordString(b)}${d}`;
     }
   );
@@ -84,20 +86,24 @@ function camelToCss(selection: string) {
 
 /** 将单词转换为小驼峰写法 */
 const transformToCamel = (text: string) => {
-  return text.replace(/-(\w+)/, function (_word, a) {
+  return text.replace(/-(\w+)/, function(_word, a) {
     return upperCaseFirstWord(a);
   });
 };
+
 /** cssToStyle */
 function cssToStyle(selection: string) {
   const transformedTxt = selection.replace(
-    /\.([^\s]*?) *\{\n([\s\S]*?)\n *\}/g,
-    function (_word, a, str) {
-      const wordList = str.split('\n');
+    /\.([^\s]*?)\s*\{[\s\n]*([\s\S]*?)[\s\n]*\}/g,
+    function(_word, a, str) {
+      const wordList = str.split(';').filter((item: string) => item !== '');
       const formattedStr = wordList
         .map((item: string) => {
           const cssArr = item.split(':');
-          const cssLabel = cssArr[0].replace(/(^\s*)|(\s*$)/g, '');
+          const cssLabel = cssArr[0].replace(
+            /(^\s*)|(\s*$)|(\t|\r|\n|\s)/g,
+            ''
+          );
           const cssValue = cssArr[1].replace(/(^\s*)|(\s*$)|;/g, '');
           const formattedWord = transformToCamel(cssLabel);
           return ` ${formattedWord}: '${cssValue}'`;
@@ -112,16 +118,20 @@ function cssToStyle(selection: string) {
 /** styleToCss */
 function styleToCss(selection: string) {
   const transformedTxt = selection.replace(
-    /style=\{\{ ?(.*?) ?\}\}/g,
-    function (_word, str) {
-      const wordList = str.split(',');
+    /style[\n\s]*=[\n\s]*\{\{\n?([\s\S]*?)\n?\}\}/g,
+    function(_word, str) {
+      const wordList = str.split(',').filter((item: string) => item !== '');
       const formattedStr = wordList
         .map((item: string) => {
           const cssArr = item.split(':');
-          const cssLabel = cssArr[0].replace(/(^\s*)|(\s*$)/g, '');
+          const cssLabel = cssArr[0].replace(
+            /(^\s*)|(\s*$)|(\t|\r|\n|\s)/g,
+            ''
+          );
           const cssValue = cssArr[1].replace(/(^\s*)|(\s*$)|'/g, '');
+          const formattedCssValue = formatSize(cssLabel, cssValue);
           const formattedWord = lowerWordString(cssLabel);
-          return `  ${formattedWord}: ${cssValue};`;
+          return `  ${formattedWord}: ${formattedCssValue};`;
         })
         .join('\n');
 
@@ -132,7 +142,7 @@ function styleToCss(selection: string) {
 }
 
 function transformWordFromMethods(method: (selection: string) => string) {
-  return function () {
+  return function() {
     const editor = vscode.window.activeTextEditor;
 
     if (editor) {
