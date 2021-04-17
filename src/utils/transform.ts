@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 import { formatSize } from './formatSize';
 
+const less = require('less');
+
 // 大写单词首个字母
 function upperCaseFirstWord(str: string) {
   if (!str) {
@@ -93,8 +95,13 @@ const transformToCamel = (text: string) => {
 
 /** cssToStyle */
 function cssToStyle(selection: string) {
-  const transformedTxt = selection.replace(
-    /\.([^\s]*?)\s*\{[\s\n]*([\s\S]*?)[\s\n]*\}/g,
+  let transformedCss = '';
+  // 引入 less 编译器
+  less.render(selection, (_e: any, cssObj: Record<string, string>) => {
+    transformedCss = cssObj.css;
+  });
+  const transformedTxt = transformedCss.replace(
+    /(\.[^\s|\.]*?)\s*\{[\s\n]*([\s\S]*?)[\s\n]*\}/g,
     function(_word, a, str) {
       const wordList = str.split(';').filter((item: string) => item !== '');
       const formattedStr = wordList

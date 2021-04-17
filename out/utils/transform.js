@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode = require("vscode");
 const formatSize_1 = require("./formatSize");
+const less = require('less');
 // 大写单词首个字母
 function upperCaseFirstWord(str) {
     if (!str) {
@@ -71,7 +72,12 @@ const transformToCamel = (text) => {
 };
 /** cssToStyle */
 function cssToStyle(selection) {
-    const transformedTxt = selection.replace(/\.([^\s]*?)\s*\{[\s\n]*([\s\S]*?)[\s\n]*\}/g, function (_word, a, str) {
+    let transformedCss = '';
+    less.render(selection, (_e, cssObj) => {
+        transformedCss = cssObj.css;
+    });
+    console.log('transformedCss: ', transformedCss);
+    const transformedTxt = transformedCss.replace(/(\.[^\s|\.]*?)\s*\{[\s\n]*([\s\S]*?)[\s\n]*\}/g, function (_word, a, str) {
         const wordList = str.split(';').filter((item) => item !== '');
         const formattedStr = wordList
             .map((item) => {
