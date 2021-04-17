@@ -25,7 +25,7 @@ Let's transform className and css as you like
 
 Transform your code with `shift + command + P` key, and choose the command you want to transform.
 
-- cssToStyle: Transform Css To Styles,transform css to JSX style.
+- cssToStyle: Transform css/less To Styles,transform css/less to JSX style.
 
 - styleToCss: Transform Styles To Css,transform JSX style to css,which is the reverse process of first usage.
 

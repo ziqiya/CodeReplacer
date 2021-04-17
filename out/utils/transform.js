@@ -73,10 +73,10 @@ const transformToCamel = (text) => {
 /** cssToStyle */
 function cssToStyle(selection) {
     let transformedCss = '';
+    // 引入 less 编译器
     less.render(selection, (_e, cssObj) => {
         transformedCss = cssObj.css;
     });
-    console.log('transformedCss: ', transformedCss);
     const transformedTxt = transformedCss.replace(/(\.[^\s|\.]*?)\s*\{[\s\n]*([\s\S]*?)[\s\n]*\}/g, function (_word, a, str) {
         const wordList = str.split(';').filter((item) => item !== '');
         const formattedStr = wordList
