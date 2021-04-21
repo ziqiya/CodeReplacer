@@ -10,16 +10,19 @@ const {
   ...restMethods
 } = transformMethods;
 
+// 只会在插件激活时执行一次
 export function activate(context: vscode.ExtensionContext) {
   const disposableArr = Object.keys(restMethods).map((item) =>
     vscode.commands.registerCommand(
-      `extension.codeReplacer.${item}`,
+      `codeReplacer.${item}`,
       transformWordFromMethods(restMethods[item])
     )
   );
 
-  // 释放资源
+  // 添加订阅
   disposableArr.forEach((item) => {
     context.subscriptions.push(item);
   });
 }
+
+export function deactivate() {}

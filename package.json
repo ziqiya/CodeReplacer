@@ -2,7 +2,7 @@
   "name": "css-code-replacer",
   "displayName": "cssCodeReplacer",
   "description": "replace css styles as you like",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": "rxs-michael",
   "publisher": "rxs-michael",
   "engines": {
@@ -26,38 +26,38 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.codeReplacer.cssToCamel",
-    "onCommand:extension.codeReplacer.camelToCss",
-    "onCommand:extension.codeReplacer.stylesToClassName",
-    "onCommand:extension.codeReplacer.classNameToStyles",
-    "onCommand:extension.codeReplacer.cssToStyle",
-    "onCommand:extension.codeReplacer.styleToCss"
+    "onCommand:codeReplacer.cssToCamel",
+    "onCommand:codeReplacer.camelToCss",
+    "onCommand:codeReplacer.stylesToClassName",
+    "onCommand:codeReplacer.classNameToStyles",
+    "onCommand:codeReplacer.cssToStyle",
+    "onCommand:codeReplacer.styleToCss"
   ],
   "main": "./out/extension",
   "contributes": {
     "commands": [
       {
-        "command": "extension.codeReplacer.cssToCamel",
+        "command": "codeReplacer.cssToCamel",
         "title": "Transform Css To Camel Style"
       },
       {
-        "command": "extension.codeReplacer.camelToCss",
+        "command": "codeReplacer.camelToCss",
         "title": "Transform Camel To Css Style"
       },
       {
-        "command": "extension.codeReplacer.stylesToClassName",
+        "command": "codeReplacer.stylesToClassName",
         "title": "Transform Styles To ClassName"
       },
       {
-        "command": "extension.codeReplacer.classNameToStyles",
+        "command": "codeReplacer.classNameToStyles",
         "title": "Transform ClassName To Styles"
       },
       {
-        "command": "extension.codeReplacer.cssToStyle",
+        "command": "codeReplacer.cssToStyle",
         "title": "Transform Css To Styles"
       },
       {
-        "command": "extension.codeReplacer.styleToCss",
+        "command": "codeReplacer.styleToCss",
         "title": "Transform Styles To Css"
       }
     ]
