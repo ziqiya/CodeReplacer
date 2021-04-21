@@ -23,7 +23,11 @@ Let's transform className and css as you like
 
 ## Usage
 
-Transform your code with `shift + command + P` key, and choose the command you want to transform.
+Transform css/less code to styles with `alt + shift + s` key(for mac :`option + shift + s`).
+Transform styles code to css with `alt + shift + c` key(for mac :`option + shift + c`).
+Or transform your code with `shift + command + P` key, and choose the command you want to transform.
+
+The following are all commands:
 
 - cssToStyle: Transform css/less To Styles,transform css/less to JSX style.
 

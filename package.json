@@ -2,7 +2,7 @@
   "name": "css-code-replacer",
   "displayName": "cssCodeReplacer",
   "description": "replace css styles as you like",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "rxs-michael",
   "publisher": "rxs-michael",
   "engines": {
@@ -59,6 +59,29 @@
       {
         "command": "codeReplacer.styleToCss",
         "title": "Transform Styles To Css"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "codeReplacer.cssToStyle",
+          "group": "1_modification",
+          "when": "resourceExtname =~ /^.(less|css)$/"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "codeReplacer.cssToStyle",
+        "key": "alt+shift+s",
+        "mac": "alt+shift+s",
+        "when": "resourceExtname =~ /^.(less|css)$/"
+      },
+      {
+        "command": "codeReplacer.styleToCss",
+        "key": "alt+shift+c",
+        "mac": "alt+shift+c",
+        "when": "resourceExtname =~ /^.(less|css)$/"
       }
     ]
   },
