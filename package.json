@@ -31,7 +31,9 @@
     "onCommand:codeReplacer.stylesToClassName",
     "onCommand:codeReplacer.classNameToStyles",
     "onCommand:codeReplacer.cssToStyle",
-    "onCommand:codeReplacer.styleToCss"
+    "onCommand:codeReplacer.styleToCss",
+    "onCommand:codeReplacer.objToJsonString",
+    "onCommand:codeReplacer.objToAttribute"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -59,6 +61,14 @@
       {
         "command": "codeReplacer.styleToCss",
         "title": "Transform Styles To Css"
+      },
+      {
+        "command": "codeReplacer.objToJsonString",
+        "title": "Transform Obj To JSON String"
+      },
+      {
+        "command": "codeReplacer.objToAttribute",
+        "title": "Transform Obj To Attribute"
       }
     ],
     "menus": {

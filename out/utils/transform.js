@@ -11,7 +11,7 @@ function upperCaseFirstWord(str) {
     const newStr = str[0].toUpperCase() + str.substring(1);
     return newStr;
 }
-// 转换蛇形命名(-)为驼峰字符串
+// 转换蛇形命名(-)为大驼峰字符串
 const upperWordString = (txt) => {
     if (!txt) {
         return '';
@@ -110,6 +110,31 @@ function styleToCss(selection) {
     });
     return transformedTxt;
 }
+/** objToJsonString */
+function objToJsonString(selection) {
+    const transformedTxt = selection.replace(/\{\n?(.*)\n?\}/g, function (_word, a, str) {
+        // return JSON.stringify(_word);
+        return JSON.stringify(eval('(' + _word + ')'));
+    });
+    return transformedTxt;
+}
+/** objToAttribute */
+function objToAttribute(selection) {
+    const transformedTxt = selection.replace(/\{\n?(.*)\n?\}/g, function (_word, str) {
+        const wordList = str.split(',').filter((item) => item !== '');
+        const formattedStr = wordList
+            .map((item) => {
+            const arr = item.split(':');
+            const label = arr[0].replace(/(^\s*)|(\s*$)|(\t|\r|\n|\s)/g, '');
+            const value = arr[1].replace(/(^\s*)|(\s*$)|'/g, '');
+            const formattedValue = value.indexOf('"') === 0 ? value : `"${value}"`;
+            return `${label}=${formattedValue}`;
+        })
+            .join('\n');
+        return `${formattedStr}`;
+    });
+    return transformedTxt;
+}
 function transformWordFromMethods(method) {
     return function () {
         const editor = vscode.window.activeTextEditor;
@@ -134,5 +159,7 @@ module.exports = {
     cssToStyle,
     styleToCss,
     transformWordFromMethods,
+    objToJsonString,
+    objToAttribute,
 };
 //# sourceMappingURL=transform.js.map

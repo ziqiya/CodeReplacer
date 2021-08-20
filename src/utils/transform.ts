@@ -12,7 +12,7 @@ function upperCaseFirstWord(str: string) {
   return newStr;
 }
 
-// 转换蛇形命名(-)为驼峰字符串
+// 转换蛇形命名(-)为大驼峰字符串
 const upperWordString = (txt: string) => {
   if (!txt) {
     return '';
@@ -46,7 +46,7 @@ const classNameToStyles = (selection: string) => {
   );
   const camelTransformedTxt = transformedTxt.replace(
     /className={styles.(\w+)([-\w+]*)}/g,
-    function(_word, a, b) {
+    function (_word, a, b) {
       return `className={styles.${a}${upperWordString(b)}}`;
     }
   );
@@ -57,7 +57,7 @@ const classNameToStyles = (selection: string) => {
 const cssToCamel = (selection: string) => {
   const camelTransformedTxt = selection.replace(
     /\.(\w+)([-\w+]*)( ?[{|,])/g,
-    function(_word, a, b, c) {
+    function (_word, a, b, c) {
       return `.${a}${upperWordString(b)}${c}`;
     }
   );
@@ -68,7 +68,7 @@ const cssToCamel = (selection: string) => {
 function stylesToClassName(selection: string) {
   const transformedTxt = selection.replace(
     /className={styles.([a-z][a-z|0-9]*)(([A-Z][a-z|0-9]*)*)}/g,
-    function(_word, a, b) {
+    function (_word, a, b) {
       return `className="${a}${lowerWordString(b)}"`;
     }
   );
@@ -79,7 +79,7 @@ function stylesToClassName(selection: string) {
 function camelToCss(selection: string) {
   const transformedTxt = selection.replace(
     /\.([a-z][a-z|0-9]*)(([A-Z][a-z|0-9]*)*)( ?[{|,])/g,
-    function(_word, a, b, _c, d) {
+    function (_word, a, b, _c, d) {
       return `.${a}${lowerWordString(b)}${d}`;
     }
   );
@@ -88,7 +88,7 @@ function camelToCss(selection: string) {
 
 /** 将单词转换为小驼峰写法 */
 const transformToCamel = (text: string) => {
-  return text.replace(/-(\w+)/, function(_word, a) {
+  return text.replace(/-(\w+)/, function (_word, a) {
     return upperCaseFirstWord(a);
   });
 };
@@ -102,7 +102,7 @@ function cssToStyle(selection: string) {
   });
   const transformedTxt = transformedCss.replace(
     /(\.[^\s|\.]*?)\s*\{[\s\n]*([\s\S]*?)[\s\n]*\}/g,
-    function(_word, a, str) {
+    function (_word, a, str) {
       const wordList = str.split(';').filter((item: string) => item !== '');
       const formattedStr = wordList
         .map((item: string) => {
@@ -126,7 +126,7 @@ function cssToStyle(selection: string) {
 function styleToCss(selection: string) {
   const transformedTxt = selection.replace(
     /style[\n\s]*=[\n\s]*\{\{\n?([\s\S]*?)\n?\}\}/g,
-    function(_word, str) {
+    function (_word, str) {
       const wordList = str.split(',').filter((item: string) => item !== '');
       const formattedStr = wordList
         .map((item: string) => {
@@ -148,8 +148,43 @@ function styleToCss(selection: string) {
   return transformedTxt;
 }
 
+/** objToJsonString */
+function objToJsonString(selection: string) {
+  const transformedTxt = selection.replace(
+    /\{\n?(.*)\n?\}/g,
+    function (_word, a, str) {
+      // return JSON.stringify(_word);
+      return JSON.stringify(eval('(' + _word + ')'));
+    }
+  );
+  return transformedTxt;
+}
+
+/** objToAttribute */
+function objToAttribute(selection: string) {
+  const transformedTxt = selection.replace(
+    /\{\n?(.*)\n?\}/g,
+    function (_word, str) {
+      const wordList = str.split(',').filter((item: string) => item !== '');
+      const formattedStr = wordList
+        .map((item: string) => {
+          const arr = item.split(':');
+          const label = arr[0].replace(/(^\s*)|(\s*$)|(\t|\r|\n|\s)/g, '');
+          const value = arr[1].replace(/(^\s*)|(\s*$)|'/g, '');
+          const formattedValue =
+            value.indexOf('"') === 0 ? value : `"${value}"`;
+          return `${label}=${formattedValue}`;
+        })
+        .join('\n');
+
+      return `${formattedStr}`;
+    }
+  );
+  return transformedTxt;
+}
+
 function transformWordFromMethods(method: (selection: string) => string) {
-  return function() {
+  return function () {
     const editor = vscode.window.activeTextEditor;
 
     if (editor) {
@@ -175,4 +210,6 @@ module.exports = {
   cssToStyle,
   styleToCss,
   transformWordFromMethods,
+  objToJsonString,
+  objToAttribute,
 };
