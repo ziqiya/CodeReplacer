@@ -1,6 +1,6 @@
 # CodeReplacer
 
-Let's transform className and css as you like
+Let's transform className/css/obj as you like
 
 ## Features
 
@@ -10,6 +10,8 @@ Let's transform className and css as you like
 - Transform Styles To ClassName
 - Transform Css To Camel Style
 - Transform Camel To Css Style
+- Transform Obj To JSON String
+- Transform Obj To Attribute
 
 ## Demo
 
@@ -40,3 +42,7 @@ The following are all commands:
 - cssToCamel：Transform Css To Camel Style,eg:`.css-name {}` => `.cssName {}`.
 
 - camelToCss：Transform Camel To Css Style,which is the reverse process of fifth usage,.eg：`.cssName {}` => `.css-name {}`.
+
+- objToJsonString：Transform Obj To JSON String, eg:`{name: "test", age: 1}` => `{"name": "test", "age": 1}`.
+
+- objToAttribute：Transform Obj To Attribute, eg:`{name: "test", age: 1}` => `name="test" age=1`.
